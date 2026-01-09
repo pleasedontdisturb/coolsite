@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uncensored</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --border: rgba(255,255,255,0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: black;
+      overflow: hidden;
+    }
+
+    /* ==== BACKGROUND ==== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05), transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.04), transparent 45%);
+      animation: floatBg 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBg {
+      from { transform: scale(1) translateY(0); }
+      to { transform: scale(1.1) translateY(-30px); }
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.15;
+    }
+
+    /* ==== CONTAINER ==== */
+    .container {
+      width: 100%;
+      max-width: 460px;
+      padding: 36px 30px 32px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.015)
+      );
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 40px 90px rgba(0,0,0,0.9),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 34px;
+    }
+
+    .logo img {
+      width: 100%;
+      max-width: 320px;
+      filter: drop-shadow(0 12px 30px rgba(255,255,255,0.18));
+    }
+
+    /* Button rows */
+    .row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      height: 54px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.02)
+      );
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s cubic-bezier(.2,.8,.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      color: black;
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(255,255,255,0.18);
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+      );
+      margin: 26px 0 18px;
+    }
+
+    .discord {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .discord:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 1.6px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      user-select: none;
+    }
+
+    /* Mobile */
+    @media (max-width: 520px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        height: 58px;
+        font-size: 15px;
+      }
+
+      .logo img {
+        max-width: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="grain"></div>
+
+  <div class="container">
+
+    <div class="logo">
+      <img src="logo.png" alt="Uncensored">
+    </div>
+
+    <div class="row">
+      <a class="btn" href="https://immortal.rs/?code=Mzg4NDMzOTE0NzEyNjg2MTUxNg==" target="_blank">Immortal</a>
+      <a class="btn" href="https://app.beamers.si/u/uncensored" target="_blank">Splunk</a>
+      <a class="btn" href="https://www.logged.tg/auth/uncensored" target="_blank">Injuries</a>
+    </div>
+
+    <div class="row">
+      <a class="btn" href="https://beaming.st/create/uncensored" target="_blank">Autohar</a>
+      <a class="btn" href="https://kyle-link-hider.vercel.app/" target="_blank">Link Hider</a>
+      <a class="btn" href="https://rbx-tool.com/BypassAge/uncensored" target="_blank">Age Bypasser</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <a class="discord" href="https://discord.gg/fzMMYc7wRb" target="_blank">
+      Discord Server
+    </a>
+
+    <div class="disclaimer">
+      WE ARE NOT DUALHOOKED!
+    </div>
+
+  </div>
+
+</body>
+</html>
