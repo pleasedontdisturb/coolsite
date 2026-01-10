@@ -1,243 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uncensored</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uncensored</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, sans-serif;
+}
 
-  <style>
-    :root {
-      --border: rgba(255,255,255,0.22);
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1a1a1a 0%, #000 60%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+/* PARTICLE CANVAS */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Inter', sans-serif;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background: black;
-      overflow: hidden;
-    }
+/* CONTAINER */
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 430px;
+  padding: 32px 26px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(18px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.9),
+    inset 0 0 40px rgba(255,255,255,0.03);
+}
 
-    /* ==== BACKGROUND ==== */
-    .bg {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 40%),
-        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05), transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.04), transparent 45%);
-      animation: floatBg 22s ease-in-out infinite alternate;
-    }
+/* LOGO */
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
 
-    @keyframes floatBg {
-      from { transform: scale(1) translateY(0); }
-      to   { transform: scale(1.1) translateY(-30px); }
-    }
+.logo img {
+  max-width: 170px;
+  filter: drop-shadow(0 0 25px rgba(255,255,255,0.35));
+}
 
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-      opacity: 0.15;
-    }
+/* SECTIONS */
+.section {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 20px;
+}
 
-    /* ==== CONTAINER ==== */
-    .container {
-      width: 100%;
-      max-width: 460px;
-      padding: 36px 30px 32px;
-      border-radius: 22px;
-      border: 1px solid var(--border);
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.06),
-        rgba(255,255,255,0.015)
-      );
-      backdrop-filter: blur(14px);
-      box-shadow:
-        0 40px 90px rgba(0,0,0,0.9),
-        inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
+/* BUTTONS */
+.btn {
+  position: relative;
+  padding: 16px 0;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #0d0d0d, #1b1b1b);
+  border: 1px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
 
-    /* Logo */
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 34px;
-    }
+/* GLOW LAYER */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(255,255,255,0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-    .logo img {
-      width: 100%;
-      max-width: 320px;
-      filter: drop-shadow(0 12px 30px rgba(255,255,255,0.18));
-    }
+.btn:hover::before {
+  opacity: 1;
+}
 
-    /* Button rows */
-    .row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 22px;
-    }
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 35px rgba(255,255,255,0.25),
+    inset 0 0 20px rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.4);
+}
 
-    .btn {
-      height: 54px;
-      border-radius: 14px;
-      border: 1.5px solid var(--border);
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.08),
-        rgba(255,255,255,0.02)
-      );
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.25s cubic-bezier(.2,.8,.2,1);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
+/* DISCORD */
+.discord {
+  background: linear-gradient(145deg, #fff, #dcdcdc);
+  color: black;
+  font-weight: 800;
+}
 
-    .btn::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: white;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      z-index: -1;
-    }
+/* FOOTER */
+.disclaimer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 1.7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  user-select: none;
+}
 
-    .btn:hover {
-      color: black;
-      transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(255,255,255,0.18);
-    }
-
-    .btn:hover::before {
-      opacity: 1;
-    }
-
-    .btn:active {
-      transform: scale(0.97);
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.35),
-        transparent
-      );
-      margin: 26px 0 18px;
-    }
-
-    .discord {
-      display: block;
-      text-align: center;
-      font-size: 14px;
-      letter-spacing: 0.4px;
-      color: rgba(255,255,255,0.75);
-      text-decoration: none;
-      transition: 0.25s ease;
-    }
-
-    .discord:hover {
-      color: white;
-      text-decoration: underline;
-    }
-
-    .disclaimer {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 12px;
-      letter-spacing: 1.6px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.55);
-      user-select: none;
-    }
-
-    /* Mobile */
-    @media (max-width: 520px) {
-      .row {
-        grid-template-columns: 1fr;
-      }
-
-      .btn {
-        height: 58px;
-        font-size: 15px;
-      }
-
-      .logo img {
-        max-width: 260px;
-      }
-    }
-  </style>
+/* DESKTOP */
+@media (min-width: 700px) {
+  .container {
+    padding: 36px 30px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <div class="bg"></div>
-  <div class="grain"></div>
+<canvas id="particles"></canvas>
 
-  <div class="container">
-
-    <div class="logo">
-      <img src="logo.png" alt="Uncensored">
-    </div>
-
-    <!-- Row 1 -->
-    <div class="row">
-      <a class="btn" href="https://immortal.rs/?code=Mzg4NDMzOTE0NzEyNjg2MTUxNg==" target="_blank">Immortal</a>
-      <a class="btn" href="https://app.beamers.si/u/uncensored" target="_blank">Splunk</a>
-      <a class="btn" href="https://www.logged.tg/auth/uncensored" target="_blank">Injuries</a>
-    </div>
-
-    <!-- Row 2 -->
-    <div class="row">
-      <a class="btn" href="https://beaming.st/create/uncensored" target="_blank">Autohar</a>
-      <a class="btn" href="https://kyle-link-hider.vercel.app/" target="_blank">Link Hider</a>
-      <a class="btn" href="https://rbx-tool.com/BypassAge/uncensored" target="_blank">Age Bypasser</a>
-    </div>
-
-    <!-- Row 3 (NEW) -->
-    <div class="row">
-      <a class="btn" href="https://rover.ltd/gen" target="_blank">Fake Rover</a>
-      <a class="btn" href="https://blox-link.com/gen" target="_blank">Fake Bloxlink</a>
-      <a class="btn" href="https://discohook.app/?data=eyJ2ZXJzaW9uIjoiZDIiLCJtZXNzYWdlcyI6W3siX2lkIjoiUGdWdDJPbWdkVyIsImRhdGEiOnsidXNlcm5hbWUiOiJSb1ZlciIsImF2YXRhcl91cmwiOiJodHRwczovL2Nkbi5kaXNjb3JkYXBwLmNvbS9hcHAtaWNvbnMvMjk4Nzk2ODA3MzIzMTIzNzEyLzczMzhlZDQ1NjY2Y2Q5MGVjMWE2NjYyNDkxYTllYjhhLnBuZyIsImF1dGhvciI6eyJuYW1lIjoiUm9WZXIiLCJpY29uX3VybCI6Imh0dHBzOi8vY2RuLmRpc2NvcmRhcHAuY29tL2FwcC1pY29ucy8yOTg3OTY4MDczMjMxMjM3MTIvNzMzOGVkNDU2NjZjZDkwZWMxYTY2NjI0OTFhOWViOGEucG5nIn0sImVtYmVkcyI6W3sidGl0bGUiOiJSb1ZlciBWZXJpZmljYXRpb24iLCJkZXNjcmlwdGlvbiI6IlRoaXMgc2VydmVyIHVzZXMgYSBSb2Jsb3ggdmVyaWZpY2F0aW9uIHN5c3RlbS4gSW4gb3JkZXIgdG8gdW5sb2NrIGFsbCB0aGUgZmVhdHVyZXMgb2YgdGhpcyBzZXJ2ZXIsIHlvdSdsbCBuZWVkIHRvIHZlcmlmeSB5b3VyIFJvYmxveCBhY2NvdW50IHdpdGggeW91ciBEaXNjb3JkIGFjY291bnQhIiwiY29sb3IiOjE2NzE3MzM0LCJmb290ZXIiOnsidGV4dCI6IkNsaWNrIHRoZSBidXR0b24gYmVsb3cgdG8gYmVnaW4uIn19XSwiY29tcG9uZW50cyI6W3sidHlwZSI6MSwiY29tcG9uZW50cyI6W3sidHlwZSI6Miwic3R5bGUiOjUsImxhYmVsIjoiVXBkYXRlIG15IHJvbGVzIiwidXJsIjoiaHR0cHM6Ly9kaXNjb2hvb2suYXBwIiwiY3VzdG9tX2lkIjoicF8yMjc3MzI5MTMwNzQ5OTkzMDIifV19XX19XSwidGFyZ2V0cyI6W119" target="_blank">Bot Message</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <a class="discord" href="https://discord.gg/fzMMYc7wRb" target="_blank">
-      Discord Server
-    </a>
-
-    <div class="disclaimer">
-      WE ARE NOT DUALHOOKED!
-    </div>
-
+<div class="container">
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
   </div>
+
+  <div class="section">
+    <a class="btn" href="https://immortal.rs/?code=Mzg4NDMzOTE0NzEyNjg2MTUxNg==" target="_blank">Immortal</a>
+    <a class="btn" href="https://app.beamers.si/u/uncensored" target="_blank">Splunk</a>
+    <a class="btn" href="https://www.logged.tg/auth/uncensored" target="_blank">Injuries</a>
+  </div>
+
+  <div class="section">
+    <a class="btn" href="https://beaming.st/create/uncensored" target="_blank">Axora</a>
+    <a class="btn" href="https://kyle-link-hider.vercel.app/" target="_blank">Link Hider</a>
+    <a class="btn" href="https://rbx-tool.com/BypassAge/uncensored" target="_blank">Age Bypasser</a>
+    <a class="btn" href="https://app.moghar.rs/auth/uncensored" target="_blank">Moghar</a>
+    <a class="btn" href="https://rover.ltd/gen" target="_blank">Fake Rover</a>
+    <a class="btn" href="https://blox-link.com/gen" target="_blank">Fake Bloxlink</a>
+    <a class="btn" href="https://discohook.app/?data=eyJ2ZXJzaW9uIjoiZDIiLCJtZXNzYWdlcyI6W3siX2lkIjoiUGdWdDJPbWdkVyIsImRhdGEiOnsidXNlcm5hbWUiOiJSb1ZlciJ9fV19" target="_blank">Bot Message</a>
+  </div>
+
+  <div class="section">
+    <a class="btn discord" href="https://discord.gg/fzMMYc7wRb" target="_blank">Discord Server</a>
+  </div>
+
+  <div class="disclaimer">WE ARE NOT DUALHOOKED!</div>
+</div>
+
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let w, h;
+const particles = [];
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+for (let i = 0; i < 90; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.5 + 0.5,
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: (Math.random() - 0.5) * 0.2
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, w, h);
+
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0 || p.x > w) p.vx *= -1;
+    if (p.y < 0 || p.y > h) p.vy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.15)";
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
 
 </body>
 </html>
